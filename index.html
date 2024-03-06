@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blinking Text</title>
+<style>
+    /* Define a class for blinking effect */
+    .blink {
+        animation: blink-animation 1s steps(5, start) infinite;
+        -webkit-animation: blink-animation 1s steps(5, start) infinite;
+    }
+    
+    @keyframes blink-animation {
+        to {
+            visibility: hidden;
+        }
+    }
+    
+    @-webkit-keyframes blink-animation {
+        to {
+            visibility: hidden;
+        }
+    }
+</style>
+</head>
+<body>
+
+<h1 class="blink">Jasial blinking</h1>
+
+<script>
+// Optional: Add JavaScript to toggle the class and stop the blinking
+// Example:
+// setTimeout(() => {
+//     document.querySelector('.blink').classList.remove('blink');
+// }, 5000); // Stop blinking after 5 seconds
+</script>
+
+</body>
+</html>
