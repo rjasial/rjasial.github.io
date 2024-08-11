@@ -1,52 +1,598 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple HTML with JavaScript</title>
+    <title>Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gupter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        body,
+        html {
             margin: 0;
             padding: 0;
+            font-family: "Gupter", serif;
+            background-color: #D6D6D6;
+        }
+
+        .gupter-regular {
+            font-family: "Gupter", serif;
+            font-weight: 400;
+            font-style: normal;
+            text-align: right;
+        }
+
+        .gupter-medium {
+            font-family: "Gupter", serif;
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        .gupter-bold {
+            font-family: "Gupter", serif;
+            font-weight: 700;
+            font-style: normal;
+            color: #A9A9A9;
+        }
+
+        .App {
+            text-align: center;
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .App-name {
+            color: #0B0909;
+            font-size: 4rem;
+            font-weight: bold;
+            transition: all 1.5s ease;
+            transform: translateX(-100%);
+        }
+
+        .App-name.visible {
+            transform: translateX(0);
+        }
+
+        .App-title {
+            color: #000000;
+            font-size: 3rem;
+            transition: all 1.5s ease;
+            transform: translateX(100%);
+        }
+
+        .App-title.visible {
+            transform: translateX(0);
+        }
+
+        .About {
+            background-color: #D6D6D6;
             height: 100vh;
-            background-color: #f0f0f0;
-        }
-        .container {
-            text-align: center;
-            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: right;
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: all 0.5s ease;
+            position: relative;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 4px;
+
+        .About.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .About .background-text {
+            position: absolute;
+            left: -100%;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 1.5s ease;
+            z-index: -1;
+            font-size: 8rem;
+            white-space: nowrap;
+            color: #B0B0B0;
+        }
+
+        .About .background-text.visible {
+            left: 0;
+        }
+
+        .About p {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            text-align: right;
+            margin-left: auto;
+        }
+
+        .Skills {
+            background-color: #D6D6D6;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .Skills.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .Skills .background-text {
+            position: absolute;
+            left: -100%;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 1.0s ease;
+            z-index: -1;
+            font-size: 8rem;
+            white-space: nowrap;
+            color: #B0B0B0;
+        }
+
+        .Skills .background-text.visible {
+            left: 0;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .Skills .skill-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s ease, transform 0.5s ease-in-out;
             cursor: pointer;
+            font-size: 2rem;
+            padding: 10px;
         }
-        button:hover {
-            background-color: #0056b3;
+
+        .Skills .skill-item.visible {
+            opacity: 1;
+            transform: scale(1);
         }
+
+        .Skills .skill-item i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        @keyframes fromTop {
+            0% {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fromBottom {
+            0% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fromLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fromRight {
+            0% {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .Skills .skill-item.skill-0 {
+            animation: fromTop 1.5s ease forwards;
+            animation-delay: 0.1s;
+        }
+
+        .Skills .skill-item.skill-1 {
+            animation: fromBottom 1.5s ease forwards;
+            animation-delay: 0.2s;
+        }
+
+        .Skills .skill-item.skill-2 {
+            animation: fromLeft 1.5s ease forwards;
+            animation-delay: 0.3s;
+        }
+
+        .Skills .skill-item.skill-3 {
+            animation: fromRight 1.5s ease forwards;
+            animation-delay: 0.4s;
+        }
+
+        .Skills .skill-item:hover {
+            transform: rotateY(360deg) scale(1.2) !important;
+        }
+
+        /* Hover colors for each skill */
+        .Skills .skill-item.skill-0:hover {
+            color: #f89820; /* Java */
+        }
+
+        .Skills .skill-item.skill-1:hover {
+            color: #f0db4f; /* JavaScript */
+        }
+
+        .Skills .skill-item.skill-2:hover {
+            color: #61dbfb; /* React.js */
+        }
+
+        .Skills .skill-item.skill-3:hover {
+            color: #68a063; /* Node.js */
+        }
+
+        .Skills .skill-item.skill-4:hover {
+            color: #e34c26; /* HTML/CSS */
+        }
+
+        .Skills .skill-item.skill-5:hover {
+            color: #306998; /* Python */
+        }
+
+        .Skills .skill-item.skill-6:hover {
+            color: #ff5733; /* Agile Methods */
+        }
+
+        .Skills .skill-item.skill-7:hover {
+            color: #ff4088; /* UX/UI */
+        }
+
+        .Skills .skill-item.skill-8:hover {
+            color: #47a248; /* MongoDB */
+        }
+
+        .Skills .skill-item.skill-9:hover {
+            color: #FFCA28; /* Firebase */
+        }
+
+        .Skills .skill-item.skill-10:hover {
+            color: #f1502f; /* Git/GitHub */
+        }
+
+        .Skills .skill-item.skill-11:hover {
+            color: #00758f; /* MySQL */
+        }
+
+        .Skills .skill-item.skill-12:hover {
+            color: #4285f4; /* Cloud */
+        }
+
+        .Skills .skill-item.skill-13:hover {
+            color: #0072C6; /* Azure */
+        }
+
+        .Skills .skill-item.skill-14:hover {
+            color: #FF9900; /* AWS */
+        }
+
+        .Skills .skill-item.skill-15:hover {
+            color: #0097a7; /* REST API */
+        }
+
+        /* Icon color hover effect */
+        .Skills .skill-item i:hover {
+            color: inherit;
+        }
+
+.Projects {
+    background-color: #D6D6D6;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: right;
+    position: relative;
+    overflow: hidden;
+}
+
+.Projects .background-text {
+    position: absolute;
+    left: 0;
+    top: 10%;
+    transform: translateY(-50%);
+    font-size: 6rem;
+    white-space: nowrap;
+    color: #a79e9e;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.project-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    grid-template-rows: repeat(2, 1fr); /* 2 rows */
+    grid-gap: 20px; /* Space between boxes */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.project-item {
+    background-color: #FFF;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Smaller height for small square boxes */
+    text-align: center; /* Center align text */
+}
+
+.project-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.project-name {
+    color: #0B0909;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: color 0.5s ease;
+}
+
+.project-name:hover {
+    color: #000000;
+}
+
+.project-description {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: #4B4B4B;
+    max-width: 80%; /* Limit width for text wrapping */
+}
+
+
+/* Common Styles */
+.background-text {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 6rem;
+    white-space: nowrap;
+    color: #B0B0B0;
+    z-index: -1;
+}
+
+.contact-icons {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.contact-icons a {
+    font-size: 2.5rem;
+    color: #000;
+    transition: color 0.3s ease;
+}
+
+.contact-icons a:hover {
+    color: #4B4B4B;
+}
+
+/* Section Specific Styles */
+.Resume {
+    background-color: #D6D6D6;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    opacity: 0;
+    transform: translateX(-20%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: relative;
+}
+
+.Resume.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.resume-download {
+    font-size: 2rem;
+    background-color: #0B0909;
+    color: #FFF;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.resume-download:hover {
+    background-color: #4B4B4B;
+}
     </style>
 </head>
+
+
 <body>
-    <div class="container">
-        <h1>Welcome to My Page</h1>
-        <p>Click the button to see a JavaScript alert:</p>
-        <button onclick="showAlert()">Click Me</button>
+    <div class="App">
+        <div class="App-name">Ritik Jasial</div>
+        <div class="App-title">Full Stack Developer</div>
     </div>
 
+    <section class="About">
+        <div class="background-text">About Me</div>
+        <p class="gupter-regular"> Passionate developer with a portfolio of dynamic full-stack projects showcasing my skills and creativity.
+            </p>
+    </section>
+
+    <section class="Skills">
+        <div class="background-text">Skills</div>
+        <div class="skills-container">
+            <div class="skill-item skill-0"><i class="fab fa-java"></i> Java</div>
+            <div class="skill-item skill-1"><i class="fab fa-js"></i> JavaScript</div>
+            <div class="skill-item skill-2"><i class="fab fa-react"></i> React.js</div>
+            <div class="skill-item skill-3"><i class="fab fa-node-js"></i> Node.js</div>
+            <div class="skill-item skill-0"><i class="fab fa-html5"></i> HTML/CSS</div>
+            <div class="skill-item skill-1"><i class="fab fa-python"></i> Python</div>
+            <div class="skill-item skill-2"><i class="fas fa-sitemap"></i> Agile Methods</div>
+            <div class="skill-item skill-3"><i class="fas fa-paint-brush"></i> UX/UI</div>
+            <div class="skill-item skill-0"><i class="fas fa-database"></i> MongoDB</div>
+            <div class="skill-item skill-1"><i class="fas fa-fire"></i> Firebase</div>
+            <div class="skill-item skill-2"><i class="fab fa-git-alt"></i> Git/GitHub</div>
+            <div class="skill-item skill-3"><i class="fas fa-database"></i> MySQL</div>
+            <div class="skill-item skill-0"><i class="fas fa-cloud"></i> Cloud</div>
+            <div class="skill-item skill-1"><i class="fab fa-microsoft"></i> Azure</div>
+            <div class="skill-item skill-2"><i class="fab fa-aws"></i> AWS</div>
+            <div class="skill-item skill-3"><i class="fas fa-cogs"></i> REST API</div>
+        </div>
+    </section>
+    
+    <section class="Projects">
+        <div class="background-text">Projects</div>
+        <div class="project-container">
+            <div class="project-item">
+                <a href="https://github.com/username/cryptographic-secure-messenger" class="project-name">Cryptographic Secure Messenger</a>
+                <p class="project-description">In this project, I have used all the cryptographic algorithms to encrypt and decrypt messages.</p>
+            </div>
+            <div class="project-item">
+                <a href="https://github.com/Panic-Devs/P2P-Loan" class="project-name">P2P Loan Application</a>
+                <p class="project-description">A platform where individuals can send money to someone and keep track of when the money needs to be received or sent in the transaction.</p>
+            </div>
+            <div class="project-item">
+                <a href="https://github.com/username/project-3" class="project-name">Project 3</a>
+                <p class="project-description">Brief description of Project 3.</p>
+            </div>
+            <div class="project-item">
+                <a href="https://github.com/username/project-4" class="project-name">Project 4</a>
+                <p class="project-description">Brief description of Project 4.</p>
+            </div>
+            <!-- Add 4 more project items -->
+            <div class="project-item">
+                <a href="https://github.com/username/project-5" class="project-name">Project 5</a>
+                <p class="project-description">Brief description of Project 5.</p>
+            </div>
+            <div class="project-item">
+                <a href="https://github.com/username/project-6" class="project-name">Project 6</a>
+                <p class="project-description">Brief description of Project 6.</p>
+            </div>
+            <div class="project-item">
+                <a href="https://github.com/username/project-7" class="project-name">Project 7</a>
+                <p class="project-description">Brief description of Project 7.</p>
+            </div>
+            <div class="project-item">
+                <a href="https://github.com/username/project-8" class="project-name">Project 8</a>
+                <p class="project-description">Brief description of Project 8.</p>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+
+    <section class="Resume">
+        <div class="background-text">Contact</div>
+        <a href="resume.pdf" class="resume-download" download>Download My Resume</a>
+
+        <div class="background-text">Contact</div>
+        <div class="contact-icons">
+            <a href="mailto:ritikjasial00@gmail.com"><i class="fas fa-envelope"></i></a>
+            <a href="https://www.linkedin.com/in/rjasial/"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/rjasial"><i class="fab fa-github"></i></a>
+        </div>
+    </section>
+
     <script>
-        function showAlert() {
-            alert('Hello! This is a JavaScript alert.');
-        }
+        window.addEventListener("DOMContentLoaded", () => {
+            // Animate App section
+            document.querySelector(".App-name").classList.add("visible");
+            document.querySelector(".App-title").classList.add("visible");
+
+            // Animate About section
+            setTimeout(() => {
+                document.querySelector(".About").classList.add("visible");
+                document.querySelector(".About .background-text").classList.add("visible");
+            }, 1500);
+
+            // Animate Skills section
+            setTimeout(() => {
+                document.querySelector(".Skills").classList.add("visible");
+                document.querySelector(".Skills .background-text").classList.add("visible");
+                document.querySelectorAll(".Skills .skill-item").forEach((item, index) => {
+                    item.classList.add("visible");
+                });
+            }, 3000);
+
+            // Animate Projects section
+            setTimeout(() => {
+                document.querySelector(".Projects").classList.add("visible");
+                document.querySelector(".Projects .background-text").classList.add("visible");
+            }, 4500);
+
+            // Animate Resume section
+            setTimeout(() => {
+                document.querySelector(".Resume").classList.add("visible");
+                document.querySelector(".Resume .background-text").classList.add("visible");
+            }, 6000);
+
+            // Animate Contact section
+            setTimeout(() => {
+                document.querySelector(".Contact").classList.add("visible");
+                document.querySelector(".Contact .background-text").classList.add("visible");
+            }, 7500);
+        });
     </script>
+    
 </body>
+
 </html>
